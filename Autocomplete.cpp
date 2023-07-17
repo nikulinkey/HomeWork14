@@ -17,7 +17,7 @@ TrieNode* TrieNode::getNewNode(void)
     return pNode;
 }
 
-void TrieNode::insert(TrieNode* root, string key)
+void TrieNode::insert(TrieNode* root, std::string key)
 {
     TrieNode* node = root;
 
@@ -35,7 +35,7 @@ void TrieNode::insert(TrieNode* root, string key)
     node->isEndOfWord = true;
 }
 
-bool TrieNode::search(TrieNode* root, string key)
+bool TrieNode::search(TrieNode* root, std::string key)
 {
     TrieNode* node = root;
 
@@ -59,7 +59,7 @@ bool TrieNode::isEmpty(TrieNode* root)
     return true;
 }
 
-TrieNode* TrieNode::remove(TrieNode* root, string key, int depth)
+TrieNode* TrieNode::remove(TrieNode* root, std::string key, int depth)
 {
     if (!root)
         return nullptr;
@@ -88,7 +88,7 @@ TrieNode* TrieNode::remove(TrieNode* root, string key, int depth)
     return root;
 }
 
-void TrieNode::findWords(TrieNode* root, string word, std::vector<string>& words)
+void TrieNode::findWords(TrieNode* root, std::string word, std::vector<std::string>& words)
 {
     if (root->isEndOfWord)
         words.push_back(word);
@@ -101,10 +101,13 @@ void TrieNode::findWords(TrieNode* root, string word, std::vector<string>& words
         }
 }
 
-void TrieNode::writeWords(TrieNode* root, string& word)
+string TrieNode::writeWords(TrieNode* root, std::string& word)
 {
-    std::vector<string>words;
+    std::vector<std::string>words;
+    words.clear();
     autoComplete(root, word, words);
+    if (!autoComplete(root, word, words))
+        return " ";
 
     for (int i = 0; i < words.size(); i++)
     {
@@ -114,26 +117,29 @@ void TrieNode::writeWords(TrieNode* root, string& word)
     std::cout << "choose word to autocomplete" << std::endl;
     std::cin >> choise;
 
-    std::cout << words[choise] << endl;
+    return words[choise];
+
 }
-void TrieNode::autoComplete(TrieNode* root, string& query, std::vector<string>& words)
+int TrieNode::autoComplete(TrieNode* root, const std::string& word, std::vector<std::string>& words)
 {
     
     TrieNode* current = root;
-    for (char i : query)
+    for (int i = 0; i < word.length(); i++)
     {
-        int ind = query[i] - 'a';
+        int ind = word[i] - 'a';
 
-        if (!current->children[ind])
+        if (!current->children[ind]) {
             cout << "no words find" << endl;
-            return;
+            return 0;
+        }
 
         current = current->children[ind];
     }
     if (isEmpty(current)) {
         cout << "no more words find" << endl;
-        return;
+        return 0;
     }
-    findWords(root, query, words);
+    findWords(current, word, words);
+    return 1;
 
 }

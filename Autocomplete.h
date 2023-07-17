@@ -12,11 +12,11 @@ class TrieNode
 
 public:
 TrieNode* getNewNode(void);
-void insert(TrieNode*, string);
-bool search(TrieNode*, string);
+void insert(TrieNode*, std::string);
+bool search(TrieNode*, std::string);
 bool isEmpty(TrieNode*);
-TrieNode* remove(TrieNode*, string, int depth = 0);
-void findWords(TrieNode*, string, std::vector<string>&);
-void writeWords(TrieNode*, string&);
-void autoComplete(TrieNode*, string&, std::vector<string>&);
+TrieNode* remove(TrieNode*, std::string, int depth = 0);
+void findWords(TrieNode*, std::string, std::vector<std::string>&);
+string writeWords(TrieNode*, std::string&);
+int autoComplete(TrieNode*, const std::string&, std::vector<std::string>&);
 };

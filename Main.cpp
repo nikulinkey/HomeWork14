@@ -22,14 +22,31 @@ int main()
     root->insert(root, "free");
 
     bool chatworks = true;
-
+    std::vector<string> messages;
     while (chatworks)
     {
         string message;
         std::cout << "write message, or 'end' to stop chat" << std::endl;
         std::cin >> message;
         if (message == "end")
+        {
             chatworks = false;
-        root->writeWords(root, message);
+            break;
+        }
+        message = root->writeWords(root, message);
+        messages.push_back(message);
+        std::cout << "send message? y/n" << endl;
+        char choise = 'n';
+        std::cin >> choise;
+        if (choise == 'y')
+        {
+            std::cout << "User: ";
+            for (int i = 0; i < messages.size(); i++)
+            {
+                cout << messages[i] << " ";
+            }
+            std::cout << endl;
+            messages.clear();
+        }
     }
 }
